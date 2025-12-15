@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Auth Pages */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-card h2 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .auth-card p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Main App Layout */
+        .app-container {
+            display: none;
+            height: 100vh;
+        }
+
+        .app-container.active {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .new-note-btn {
+            margin: 20px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .new-note-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 10px;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item:hover {
+            background: #f5f5f5;
+        }
+
+        .menu-item.active {
+            background: #e8eaf6;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            margin: 20px;
+            padding: 12px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-btn.active {
+            border-color: #667eea;
+            background: #e8eaf6;
+            color: #667eea;
+        }
+
+        /* Notes Grid */
+        .notes-container {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .note-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .note-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .note-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .note-date {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .note-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .note-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background: #e8eaf6;
+            color: #667eea;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Note Editor Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+        }
+
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .editor-title {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .editor-title:focus {
+            outline: none;
+        }
+
+        .editor-content {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .editor-content:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                height: 100vh;
+                z-index: 100;
+                transition: left 0.3s;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="auth-container" id="loginPage">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p>Sign in to your account</p>
+            <form>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password">
+                </div>
+                <button type="button" class="btn" onclick="showApp()">Sign In</button>
+            </form>
+            <div class="auth-link">
+                Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div class="auth-container" id="registerPage" style="display: none;">
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p>Sign up to get started</p>
+            <form>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Create a password">
+                </div>
+                <button type="button" class="btn" onclick="showApp()">Sign Up</button>
+            </form>
+            <div class="auth-link">
+                Already have an account? <a href="#" onclick="showLogin()">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="mainApp">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📝 Notes</h1>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-email">john@example.com</div>
+                </div>
+            </div>
+            <button class="new-note-btn" onclick="openEditor()">+ New Note</button>
+            <nav class="sidebar-menu">
+                <div class="menu-item active">📋 All Notes</div>
+                <div class="menu-item">⭐ Favorites</div>
+                <div class="menu-item">📌 Pinned</div>
+                <div class="menu-item">🗑️ Trash</div>
+                <div class="menu-item">🏷️ Tags</div>
+                <div class="menu-item">📊 Archive</div>
+            </nav>
+            <button class="logout-btn" onclick="showLogin()">Logout</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="search-box">
+                    <input type="text" placeholder="Search notes...">
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active">Grid</button>
+                    <button class="view-btn">List</button>
+                </div>
+            </div>
+
+            <div class="notes-container">
+                <div class="notes-grid">
+                    <!-- Sample Note Cards -->
+                    <div class="note-card" onclick="openEditor()">
+                        <div class="note-header">
+                            <div>
+                                <div class="note-title">Meeting Notes</div>
+                                <div class="note-date">2 hours ago</div>
+                            </div>
+                            <div class="note-actions">
+                                <button class="action-btn">⭐</button>
+                                <button class="action-btn">📌</button>
+                            </div>
+                        </div>
+                        <div class="note-content">
+                            Discussed project timeline and deliverables. Team members assigned their tasks. Next meeting scheduled for Friday.
+                        </div>
+                        <div class="note-tags">
+                            <span class="tag">Work</span>
+                            <span class="tag">Important</span>
+                        </div>
+                    </div>
+
+                    <div class="note-card" onclick="openEditor()">
+                        <div class="note-header">
+                            <div>
+                                <div class="note-title">Shopping List</div>
+                                <div class="note-date">1 day ago</div>
+                            </div>
+                            <div class="note-actions">
+                                <button class="action-btn">⭐</button>
+                                <button class="action-btn">📌</button>
+                            </div>
+                        </div>
+                        <div class="note-content">
+                            Milk, Eggs, Bread, Butter, Coffee, Fresh vegetables, Fruits
+                        </div>
+                        <div class="note-tags">
+                            <span class="tag">Personal</span>
+                        </div>
+                    </div>
+
+                    <div class="note-card" onclick="openEditor()">
+                        <div class="note-header">
+                            <div>
+                                <div class="note-title">Project Ideas</div>
+                                <div class="note-date">3 days ago</div>
+                            </div>
+                            <div class="note-actions">
+                                <button class="action-btn">⭐</button>
+                                <button class="action-btn">📌</button>
+                            </div>
+                        </div>
+                        <div class="note-content">
+                            1. Build a note-taking app
+                            2. Create a task manager
+                            3. Develop a weather app
+                            4. Make a recipe organizer
+                        </div>
+                        <div class="note-tags">
+                            <span class="tag">Ideas</span>
+                            <span class="tag">Dev</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Note Editor Modal -->
+    <div class="modal" id="editorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>New Note</h3>
+                <button class="close-btn" onclick="closeEditor()">×</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="editor-title" placeholder="Note title...">
+                <textarea class="editor-content" placeholder="Start writing your note..."></textarea>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Tags</label>
+                    <input type="text" placeholder="Add tags (comma separated)">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeEditor()">Cancel</button>
+                <button class="btn-primary" onclick="closeEditor()">Save Note</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLogin() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('mainApp').classList.remove('active');
+        }
+
+        function showRegister() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'flex';
+            document.getElementById('mainApp').classList.remove('active');
+        }
+
+        function showApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
+        }
+
+        function openEditor() {
+            document.getElementById('editorModal').classList.add('active');
+        }
+
+        function closeEditor() {
+            document.getElementById('editorModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

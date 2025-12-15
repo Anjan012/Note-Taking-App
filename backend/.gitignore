@@ -1,0 +1,13 @@
+# Ignore environment variables
+.env
+
+# Ignore dependencies (too large to push)
+node_modules/
+
+# Ignore build/dist folders (frontend production files)
+dist/
+build/
+
+# Optional: Ignore OS files or IDE settings
+.DS_Store
+.vscode/
