@@ -1,4 +1,12 @@
 export const Home = () => {
+    const handleLogout = () => {
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("user");
+        window.location.href = "/login"; // or use navigate
+    };
+
+    const jwt = localStorage.getItem("jwt");
+    console.log(jwt);
     return (
         <div className="app-container" id="mainApp">
             <aside className="sidebar">
@@ -21,7 +29,7 @@ export const Home = () => {
                     <div className="menu-item">🏷️ Tags</div>
                     <div className="menu-item">📊 Archive</div>
                 </nav>
-                <button className="logout-btn" >Logout</button>
+                <button className="logout-btn" onClick={handleLogout} >Logout</button>
             </aside>
 
             <main className="main-content">
