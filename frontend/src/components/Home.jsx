@@ -5,8 +5,6 @@ export const Home = () => {
         window.location.href = "/login"; // or use navigate
     };
 
-    const jwt = localStorage.getItem("jwt");
-    console.log(jwt);
     return (
         <div className="app-container" id="mainApp">
             <aside className="sidebar">

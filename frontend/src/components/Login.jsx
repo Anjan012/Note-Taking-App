@@ -50,8 +50,8 @@ export const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const isValid = validateLoginInput();
+        try {
+            const isValid = validateLoginInput();
 
         if (isValid) {
             // console.log("Form is valid! Proceed with login...");
@@ -64,19 +64,25 @@ export const Login = () => {
                 }
             );
 
+            const userData = response.data.user;
+
+            localStorage.setItem("userData", JSON.stringify(userData));
+
             const jwt = response.data.user.jwt;
 
             localStorage.setItem("jwt", jwt);
 
-            console.log(jwt);
+
             if (response.status === 200) {
                 navigate("/dashboard");
             }
 
-        } else {
-            console.log("Form has errors. Cannot submit.");
-            // Errors are already set in state, you can display them in UI
         }
+        } catch (error) {
+            console.log("Login Error: ", error);
+            
+        }
+        
     };
 
     return (
