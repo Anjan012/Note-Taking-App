@@ -25,4 +25,24 @@ export const createNote = async (req, res) => {
     } catch (error) {
         console.log(`Create Note: ${error}`);
     }
-}
+};
+
+export const getNotes = async (req, res) => {
+    try {
+        // Get userId from query string (e.g., ?userId=123)
+        const userId = req.query.userId;
+
+        if (!userId) {
+            return res.status(400).json({ message: "userId is required" });
+        }
+
+        console.log("Fetching notes for userId:", userId); // Debug
+
+        const result = await Note.find({ userId });
+
+        res.status(200).json(result);
+    } catch (error) {
+        console.log("Get Notes Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};

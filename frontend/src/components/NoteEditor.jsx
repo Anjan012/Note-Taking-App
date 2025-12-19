@@ -70,11 +70,7 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
                     }
                 );
 
-                if(response.status === 201 ){
-                    console.log("Note created successfully:", response.data);
-                }
 
-                alert("note created successfully!");
                 setNewNote({
                     title: "",
                     content: "",
