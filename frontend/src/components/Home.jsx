@@ -1,11 +1,42 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { NoteEditor } from "./NoteEditor";
+
 export const Home = () => {
+
+    const [isOpenModal, setIsOpenModal] = useState(false);
+
     const handleLogout = () => {
         localStorage.removeItem("jwt");
         localStorage.removeItem("user");
         window.location.href = "/login"; // or use navigate
     };
 
+    const jwtToken = localStorage.getItem("jwt");
+    const userData = JSON.parse(localStorage.getItem("userData"));
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!jwtToken && !userData) {
+            navigate("/login");
+            return;
+        }
+
+    }, []);
+
+    const addNote = () => {
+        setIsOpenModal(true);
+    }
+
+
     return (
+        <>
+        <NoteEditor 
+            isOpenModal={isOpenModal} 
+            setIsOpenModal={setIsOpenModal} 
+            userData={userData} 
+        />
         <div className="app-container" id="mainApp">
             <aside className="sidebar">
                 <div className="sidebar-header">
@@ -14,11 +45,19 @@ export const Home = () => {
                 <div className="user-info">
                     <div className="user-avatar">JD</div>
                     <div className="user-details">
-                        <div className="user-name">John Doe</div>
-                        <div className="user-email">john@example.com</div>
+                        <div className="user-name">
+                            {
+                                userData.name
+                            }
+                        </div>
+                        <div className="user-email">
+                            {
+                                userData.email
+                            }
+                        </div>
                     </div>
                 </div>
-                <button className="new-note-btn" >+ New Note</button>
+                <button className="new-note-btn" onClick={addNote} >+ New Note</button>
                 <nav className="sidebar-menu">
                     <div className="menu-item active">📋 All Notes</div>
                     <div className="menu-item">⭐ Favorites</div>
@@ -43,6 +82,7 @@ export const Home = () => {
 
                 <div className="notes-container">
                     <div className="notes-grid">
+                        
                         <div className="note-card" >
                             <div className="note-header">
                                 <div>
@@ -63,50 +103,10 @@ export const Home = () => {
                             </div>
                         </div>
 
-                        <div className="note-card" >
-                            <div className="note-header">
-                                <div>
-                                    <div className="note-title">Shopping List</div>
-                                    <div className="note-date">1 day ago</div>
-                                </div>
-                                <div className="note-actions">
-                                    <button className="action-btn">⭐</button>
-                                    <button className="action-btn">📌</button>
-                                </div>
-                            </div>
-                            <div className="note-content">
-                                Milk, Eggs, Bread, Butter, Coffee, Fresh vegetables, Fruits
-                            </div>
-                            <div className="note-tags">
-                                <span className="tag">Personal</span>
-                            </div>
-                        </div>
-
-                        <div className="note-card" >
-                            <div className="note-header">
-                                <div>
-                                    <div className="note-title">Project Ideas</div>
-                                    <div className="note-date">3 days ago</div>
-                                </div>
-                                <div className="note-actions">
-                                    <button className="action-btn">⭐</button>
-                                    <button className="action-btn">📌</button>
-                                </div>
-                            </div>
-                            <div className="note-content">
-                                1. Build a note-taking app
-                                2. Create a task manager
-                                3. Develop a weather app
-                                4. Make a recipe organizer
-                            </div>
-                            <div className="note-tags">
-                                <span className="tag">Ideas</span>
-                                <span className="tag">Dev</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </main>
         </div>
+        </>
     )
 }
