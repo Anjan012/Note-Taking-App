@@ -46,6 +46,9 @@ export const Home = () => {
         setIsOpenModal(true);
     }
 
+    const handleDeleteNote = () => {
+        alert("Delete note clicked");
+    }
 
     return (
         <>
@@ -60,7 +63,11 @@ export const Home = () => {
                         <h1>📝 Notes</h1>
                     </div>
                     <div className="user-info">
-                        <div className="user-avatar">JD</div>
+                        <div className="user-avatar">
+                            {
+                                userData.name.charAt(0).toUpperCase()
+                            }
+                        </div>
                         <div className="user-details">
                             <div className="user-name">
                                 {
@@ -103,9 +110,9 @@ export const Home = () => {
 
 
                             {
-                                notes.map((note, index) => {
+                                notes.map((note) => {
                                     return (
-                                        <div className="note-card" key={index}>
+                                        <div className="note-card" key={note._id}>
                                             <div className="note-header">
                                                 <div>
                                                     <div className="note-title">
@@ -120,6 +127,7 @@ export const Home = () => {
                                                 <div className="note-actions">
                                                     <button className="action-btn">⭐</button>
                                                     <button className="action-btn">📌</button>
+                                                    <button className="action-button" onClick={handleDeleteNote}>🗑️</button>
                                                 </div>
                                             </div>
                                             <div className="note-content">

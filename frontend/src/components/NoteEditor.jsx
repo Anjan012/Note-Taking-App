@@ -37,7 +37,7 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
             newErrors.title = "Content with no title woof boring 🥱";
         }
         if (!content && title) {
-            newErrors.content = "You can create title just create title but no content 🥹";
+            newErrors.content = "You can create title but no content 🥹";
         } else if (!content) {
             newErrors.content = "Babes, 💋 you can't create note without content ";
         }
@@ -47,7 +47,6 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
 
         setErrors(newErrors);
 
-
         return Object.keys(newErrors).length === 0;
     }
 
@@ -56,7 +55,7 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
         try {
             const isValid = validateNoteInput();
             if (isValid) {
-                
+
 
                 const response = await axios.post(URL,
                     {
@@ -64,7 +63,7 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
                         content: newNote.content,
                         tags: newNote.tags,
                         userId: newNote.userId
-                    }, 
+                    },
                     {
                         withCredentials: true // for future
                     }
@@ -79,7 +78,6 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
                 });
                 setIsOpenModal(false);
             }
-
 
         }
         catch (error) {
@@ -118,12 +116,12 @@ export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
                         name="content"
                         value={newNote.content}
                     >
-                        
+
 
                     </textarea>
                     {
-                            errors.content && <span style={{ color: 'red', fontSize: '0.8rem' }}>{errors.content}</span>
-                        }
+                        errors.content && <span style={{ color: 'red', fontSize: '0.8rem' }}>{errors.content}</span>
+                    }
                     <div className="form-group" style={{ marginTop: '15px' }}>
                         <label>Tags</label>
                         <input

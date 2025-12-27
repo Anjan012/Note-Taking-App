@@ -19,11 +19,11 @@ export const register = async (req, res) => {
 
     if (userExist) {
       return res.status(400).json({
-        message: "User already exists with this email",
+        message: "User already exists with this email", // This is good for practice but Error message should not leak info
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); 
 
     // creating a new user to the database
     const userCreated = await User.create({
