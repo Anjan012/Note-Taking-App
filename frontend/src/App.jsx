@@ -17,7 +17,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/dashboard' element={<Home />} />
+          <Route path='/' element={<Home />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -38,7 +38,6 @@ export const register = async (req, res) => {
         id: userCreated._id,
         name: userCreated.name,
         email: userCreated.email,
-        jwt: await userCreated.generateToken()
       },
     });
   } catch (error) {
