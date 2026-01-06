@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { NoteEditor } from "./NoteEditor";
 import axios from "axios";
 
-const URL = "http://localhost:8000/api/auth/get-notes";
 
 export const Home = () => {
 
@@ -15,7 +14,7 @@ export const Home = () => {
 
     useEffect(() => {
         const getNotes = async () => {
-            const response = await axios.get(`http://localhost:8000/api/auth/get-notes?userId=${userData.id}`);
+            const response = await axios.get(`http://localhost:8000/api/notes/get-notes?userId=${userData.id}`);
             setNotes(response.data);
         }
 

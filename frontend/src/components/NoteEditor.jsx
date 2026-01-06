@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const URL = "http://localhost:8000/api/auth/create-notes";
+const URL = "http://localhost:8000/api/notes/create-notes";
 
 export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
 

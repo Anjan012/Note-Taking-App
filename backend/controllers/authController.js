@@ -96,5 +96,7 @@ export const login = async (req, res) => {
         email: user.email,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
