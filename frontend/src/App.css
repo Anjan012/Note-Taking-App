@@ -474,3 +474,72 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* CSS - Add to your stylesheet */
+.deletemodal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.deletemodal-content {
+  background: white;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+.deletemodal-content h3 {
+  margin: 0 0 1rem;
+  color: #e53e3e;
+  font-size: 1.6rem;
+}
+
+.deletemodal-content p {
+  margin: 0 0 1.8rem;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.75rem 1.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn.cancel {
+  background: #edf2f7;
+  color: #2d3748;
+}
+
+.btn.cancel:hover {
+  background: #e2e8f0;
+}
+
+.btn.delete {
+  background: #e53e3e;
+  color: white;
+}
+
+.btn.delete:hover {
+  background: #c53030;
+}

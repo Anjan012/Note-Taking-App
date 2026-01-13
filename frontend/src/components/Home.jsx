@@ -12,6 +12,12 @@ export const Home = () => {
 
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [notes, setNotes] = useState([]);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isConfirmDelete, setIsConfirmDelete] = useState({
+        status: false,
+        note_id: null
+    });
+
 
     useEffect(() => {
         const getNotes = async () => {
@@ -46,21 +52,32 @@ export const Home = () => {
         setIsOpenModal(true);
     }
 
+    
+
     async function handleDeleteNote(noteId) {
         try {
-            const response = await axios.delete(`http://localhost:8000/api/notes/deleteNote/${noteId}`);
-
-            if(response.status === 200) {
-                console.log("note deleted");
-            }
+            setIsConfirmDelete({
+                status: true,
+                note_id: noteId
+            })
+            setIsDeleteOpen(true);
         } catch (error) {
             console.log(error);
         }
+
     }
+
+    const deleteNoteStatus = isConfirmDelete.status;
+    const deleteNoteId = isConfirmDelete.note_id;
 
     return (
         <>
-            <DeletePopUp />
+            <DeletePopUp 
+                isDeleteOpen = {isDeleteOpen}
+                setIsDeleteOpen = {setIsDeleteOpen}
+                deleteNoteStatus = {deleteNoteStatus}
+                deleteNoteId = {deleteNoteId}
+            />
             <NoteEditor
                 isOpenModal={isOpenModal}
                 setIsOpenModal={setIsOpenModal}
