@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.route("/create-notes").post(createNote);
 router.route("/get-notes").get(getNotes); 
-router.route("/:noteId").delete(deleteNote);
+router.route("/deleteNote/:noteId").delete(deleteNote);
 
 export default router;

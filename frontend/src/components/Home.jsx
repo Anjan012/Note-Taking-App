@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NoteEditor } from "./NoteEditor";
+import { DeletePopUp } from "./pop ups/DeletePop";
 import axios from "axios";
 
 
@@ -20,7 +21,7 @@ export const Home = () => {
 
         getNotes();
 
-    }, [isOpenModal]);
+    }, [isOpenModal, notes]);
 
 
     const handleLogout = () => {
@@ -45,12 +46,21 @@ export const Home = () => {
         setIsOpenModal(true);
     }
 
-    const handleDeleteNote = () => {
-        alert("Delete note clicked");
+    async function handleDeleteNote(noteId) {
+        try {
+            const response = await axios.delete(`http://localhost:8000/api/notes/deleteNote/${noteId}`);
+
+            if(response.status === 200) {
+                console.log("note deleted");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <>
+            <DeletePopUp />
             <NoteEditor
                 isOpenModal={isOpenModal}
                 setIsOpenModal={setIsOpenModal}
@@ -126,7 +136,7 @@ export const Home = () => {
                                                 <div className="note-actions">
                                                     <button className="action-btn">⭐</button>
                                                     <button className="action-btn">📌</button>
-                                                    <button className="action-button" onClick={handleDeleteNote}>🗑️</button>
+                                                    <button className="action-button" onClick={() => handleDeleteNote(note._id)}>🗑️</button>
                                                 </div>
                                             </div>
                                             <div className="note-content">
