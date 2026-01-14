@@ -28,7 +28,7 @@ export const Home = () => {
 
         getNotes();
 
-    }, [isOpenModal, notes]);
+    }, [isOpenModal, isDeleteOpen]);
 
 
     const handleLogout = () => {
