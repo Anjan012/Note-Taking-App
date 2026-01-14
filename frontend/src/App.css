@@ -1,5 +1,10 @@
 
 /* Auth Pages */
+.app-name span{
+  color: #6366f1;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 .auth-container {
   display: flex;
   justify-content: center;

@@ -87,7 +87,7 @@ export const Home = () => {
             <div className="app-container" id="mainApp">
                 <aside className="sidebar">
                     <div className="sidebar-header">
-                        <h1>📝 Notes</h1>
+                        <h1 className="app-name">📝 <span>Mi</span>mi </h1>
                     </div>
                     <div className="user-info">
                         <div className="user-avatar">
