@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NoteEditor } from "./NoteEditor";
 import { DeletePopUp } from "./pop ups/DeletePop";
+import { EmptyNotes } from "./empty note/EmptyNotes";
 import axios from "axios";
 
 
@@ -52,7 +53,7 @@ export const Home = () => {
         setIsOpenModal(true);
     }
 
-    
+
 
     async function handleDeleteNote(noteId) {
         try {
@@ -72,11 +73,11 @@ export const Home = () => {
 
     return (
         <>
-            <DeletePopUp 
-                isDeleteOpen = {isDeleteOpen}
-                setIsDeleteOpen = {setIsDeleteOpen}
-                deleteNoteStatus = {deleteNoteStatus}
-                deleteNoteId = {deleteNoteId}
+            <DeletePopUp
+                isDeleteOpen={isDeleteOpen}
+                setIsDeleteOpen={setIsDeleteOpen}
+                deleteNoteStatus={deleteNoteStatus}
+                deleteNoteId={deleteNoteId}
             />
             <NoteEditor
                 isOpenModal={isOpenModal}
@@ -130,49 +131,55 @@ export const Home = () => {
                         </div>
                     </div>
 
-                    <div className="notes-container">
-                        <div className="notes-grid">
 
+                    {
+                        notes[0] ? (
+                            <div className="notes-container">
+                                <div className="notes-grid">
 
-
-                            {
-                                notes.map((note) => {
-                                    return (
-                                        <div className="note-card" key={note._id}>
-                                            <div className="note-header">
-                                                <div>
-                                                    <div className="note-title">
-                                                        {
-                                                            note.title
-                                                        }
+                                    {
+                                        notes.map((note) => {
+                                            return (
+                                                <div className="note-card" key={note._id}>
+                                                    <div className="note-header">
+                                                        <div>
+                                                            <div className="note-title">
+                                                                {
+                                                                    note.title
+                                                                }
+                                                            </div>
+                                                            <div className="note-date">
+                                                                {new Date(note.createdAt).toLocaleDateString()}
+                                                            </div>
+                                                        </div>
+                                                        <div className="note-actions">
+                                                            <button className="action-btn">⭐</button>
+                                                            <button className="action-btn">📌</button>
+                                                            <button className="action-button" onClick={() => handleDeleteNote(note._id)}>🗑️</button>
+                                                        </div>
                                                     </div>
-                                                    <div className="note-date">
-                                                        {new Date(note.createdAt).toLocaleDateString()}
+                                                    <div className="note-content">
+                                                        {note.content}
+                                                    </div>
+                                                    <div className="note-tags">
+                                                        <span className="tag">
+                                                            {
+                                                                note.tags.map(tag => `${tag} `)
+                                                            }
+                                                        </span>
                                                     </div>
                                                 </div>
-                                                <div className="note-actions">
-                                                    <button className="action-btn">⭐</button>
-                                                    <button className="action-btn">📌</button>
-                                                    <button className="action-button" onClick={() => handleDeleteNote(note._id)}>🗑️</button>
-                                                </div>
-                                            </div>
-                                            <div className="note-content">
-                                                {note.content}
-                                            </div>
-                                            <div className="note-tags">
-                                                <span className="tag">
-                                                    {
-                                                        note.tags.map(tag => `${tag} `)
-                                                    }
-                                                </span>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
+                                            )
+                                        })
+                                    }
 
-                        </div>
-                    </div>
+                                </div>
+                            </div>
+                        )
+                        :
+                        <EmptyNotes addNote={addNote} />
+
+                    }
                 </main>
             </div>
         </>
