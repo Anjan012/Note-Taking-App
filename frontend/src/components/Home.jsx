@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { NoteEditor } from "./NoteEditor";
 import { DeletePopUp } from "./pop ups/DeletePop";
 import { EmptyNotes } from "./empty note/EmptyNotes";
+import { NonEmptyNote } from "./non empty notes/NonEmptyNotes";
 import axios from "axios";
 
 
@@ -134,50 +135,10 @@ export const Home = () => {
 
                     {
                         notes[0] ? (
-                            <div className="notes-container">
-                                <div className="notes-grid">
-
-                                    {
-                                        notes.map((note) => {
-                                            return (
-                                                <div className="note-card" key={note._id}>
-                                                    <div className="note-header">
-                                                        <div>
-                                                            <div className="note-title">
-                                                                {
-                                                                    note.title
-                                                                }
-                                                            </div>
-                                                            <div className="note-date">
-                                                                {new Date(note.createdAt).toLocaleDateString()}
-                                                            </div>
-                                                        </div>
-                                                        <div className="note-actions">
-                                                            <button className="action-btn">⭐</button>
-                                                            <button className="action-btn">📌</button>
-                                                            <button className="action-button" onClick={() => handleDeleteNote(note._id)}>🗑️</button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="note-content">
-                                                        {note.content}
-                                                    </div>
-                                                    <div className="note-tags">
-                                                        <span className="tag">
-                                                            {
-                                                                note.tags.map(tag => `${tag} `)
-                                                            }
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-
-                                </div>
-                            </div>
+                            <NonEmptyNote notes={notes} handleDeleteNote={handleDeleteNote} />
                         )
-                        :
-                        <EmptyNotes addNote={addNote} />
+                            :
+                            <EmptyNotes addNote={addNote} />
 
                     }
                 </main>
