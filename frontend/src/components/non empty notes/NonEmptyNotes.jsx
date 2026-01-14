@@ -1,16 +1,21 @@
+import { useState } from "react";
+import { ViewNote } from "../view note/ViewNote";
 export const NonEmptyNote = ({notes, handleDeleteNote}) => {
+
+    const [showSelectedNote, setShowSelectedNote] = useState(false);
+    const [note, setNote] = useState("");
 
 
     return (
         <div className="notes-container">
             <div className="notes-grid">
-
+                
                 {
                     notes.map((note) => {
                         return (
-                            <div className="note-card" key={note._id}>
+                            <div className="note-card" key={note._id} >
                                 <div className="note-header">
-                                    <div>
+                                    <div onClick={() => {setShowSelectedNote(true); setNote(note)}}>
                                         <div className="note-title">
                                             {
                                                 note.title
@@ -39,6 +44,16 @@ export const NonEmptyNote = ({notes, handleDeleteNote}) => {
                             </div>
                         )
                     })
+                }
+
+                {
+                    showSelectedNote && (
+                        <ViewNote 
+                            note={note}
+                            showSelectedNote={showSelectedNote}
+                            setShowSelectedNote={setShowSelectedNote}
+                        /> 
+                    )
                 }
 
             </div>
