@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const URL = "http://localhost:8000/api/auth/login";
+const URL = "https://note-taking-app-backend-yunc.onrender.com/api/auth/login";
 
 export const Login = () => {
 

@@ -8,7 +8,7 @@ export const DeletePopUp = ({ isDeleteOpen, setIsDeleteOpen, deleteNoteStatus, d
         try {
 
             if (deleteNoteStatus && deleteNoteId) {
-                const response = await axios.delete(`http://localhost:8000/api/notes/deleteNote/${deleteNoteId}`);
+                const response = await axios.delete(`https://note-taking-app-backend-yunc.onrender.com/api/notes/deleteNote/${deleteNoteId}`);
                 if (response.status === 200) {
                     console.log("note deleted");
                 }

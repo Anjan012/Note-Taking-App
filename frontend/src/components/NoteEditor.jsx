@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const URL = "http://localhost:8000/api/notes/create-notes";
+const URL = "https://note-taking-app-backend-yunc.onrender.com/api/notes/create-notes";
 
 export const NoteEditor = ({ isOpenModal, setIsOpenModal, userData }) => {
 

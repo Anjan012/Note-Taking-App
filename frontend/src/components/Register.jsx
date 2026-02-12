@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 
-const URL = "http://localhost:8000/api/auth/register";
+const URL = "https://note-taking-app-backend-yunc.onrender.com/api/auth/register";
 
 export const Register = () => {
 
