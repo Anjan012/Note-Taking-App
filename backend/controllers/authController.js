@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { RefreshToken } from "../models/refreshToken.model.js";
 import { generateAccessToken } from "../utils/generateAccessToken.js";
 import { generateRefreshToken } from "../utils/generateRefreshToken.js";
-import { hashToken } from "../utils/hashtoken.js";
+import { hashToken } from "../utils/hashToken.js";
 
 export const home = (req, res) => {
   try {
