@@ -12,7 +12,7 @@ const app = express();
 
 app.use(helmet()); // security header
 const corsOption = {
-    origin: 'http://localhost:5173',
+    origin: 'https://note-taking-app-frontend-j9w5.onrender.com',
     credentials: true
 }
 app.use(cors(corsOption));
