@@ -23,7 +23,7 @@ export const Home = () => {
 
     useEffect(() => {
         const getNotes = async () => {
-            const response = await axios.get(`http://localhost:8000/api/notes/get-notes?userId=${userData.id}`);
+            const response = await axios.get(`https://note-taking-app-backend-yunc.onrender.com?userId=${userData.id}`);
             setNotes(response.data);
         }
 
